@@ -6,3 +6,6 @@
 *.png
 ./data
 ./literature
+*.pdf
+*.docx
+*.html
