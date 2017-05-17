@@ -14,7 +14,17 @@ data <- read.csv("./data/mr_rinput.csv", header = TRUE)
 
 
 ExcC <- mrClosed(M=445, n= 212, m=53, method = "Chapman")
+confint(ExcC)
+summary(ExcC)
 
+data %>% 
+  mutate(Chapman = (((M+1)*(n+1))/ (m+1))-1, 
+         SE = (((M+1)*(n+1)*(M-m)*(n-m))/((m+1)*(m+1)*(m+2)))^0.5, 
+         upper = Chapman + (SE*1.96), lower = Chapman -(SE*1.96)) ->data_sum
+
+
+
+### Not sure how to do it this way  ------------
 data %>% # doesn't work with dat2 data because there are no 0's for missing data
   group_by(year, area) %>%
   do(fit = mrClosed (M =data$M, n=data$n, m=data$m , method = "Chapman")) -> Chapman
