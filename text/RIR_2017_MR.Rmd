@@ -1,0 +1,60 @@
+---
+title: "RIR_mark_recap_2017"
+author: "Katie Palof"
+date: "May 17, 2017"
+output: html_document
+---
+
+# INTRODUCTION
+
+# OBJECTIVES
+
+# METHODS
+The method used to date is a Petersen estimator:
+
+$\hat{N}=\frac{n_1n_2}{m2},$
+
+where
+
+$n_1$ = the number of tagged crabs released,  
+$n_2$ = the number of crabs examined at the second event,  
+$m_2$ = the number of crabs with tags present at the second event, and,  
+$\hat{N}$ = the estimated abundance.
+
+There are a suite of assumptions that are included in a mark-recapture study:
+
+1.  The population is closed (no mortality, immigration, emigration, recruitment, etc.)
+2.  All individuals have the same probability of capture $p_1$ at time $t_1$
+3.  The sample of time $t_2$ is a simple random sample without replacement
+4.  Marking doesn’t affect probability of capture $p_2$
+5.  There is no tag loss
+6.  All individual with marks are reported
+
+The Petersen estimator is biased. This is well known and it will no longer be used. The Chapman estimator (1951) will be used in its place. The Chapman estimator is unbiased if $n_1+n_2>N$. 
+
+$\hat{N}=\frac{(n_1+1)(n_2+1)}{(m_2+1)}-1,$
+
+For these estimators, when the expected number of recaptures *is less than 10* the estimate of abundance may fail to give even the order of magnitude of the population correctly (Seber 1982).  Also, estimates of abundance (N) with low recaptures ($m_2$) have very large variances and therefore do not have much confidence associated with them.
+
+When there have been multiple tagging and recpature periods different abundance estimators can be used. The advantage of using these would be to reduce the variance of the abundance estimate. In theory, the lower the variance the better the estimator. It is rare that such estimators change the point estimate much from the Chapman estimate, but they have better overall properties. 
+
+Two common multi-stage abundance estimators are the pooled Petersen, that is the unweighted mean of Chapman estimates for each time period, or the Schnabel estimator. The Schnabel estimator is a mean of each time period weighted by the number of recaptures. The Schnabel may reduce the variance of a popoulation estimate whereas the pooled Petersen cannot when compared to a single Chapman estimate. 
+
+Schnabel estimator:
+
+
+$\hat{N}=\frac{lamda}{m+1},$
+where
+
+$lamda$ = $\sum_{i=1}^s n_iM_i$  
+$m$ = the total number of individuals marked,  
+$M$ = the number of marked invdividuals at time period *i*,   
+$n_i$ = the number of individuals captured in time period *i*, and,   
+$s$ = the number of time periods.
+# RESULTS
+
+# DISCUSSION
+
+
+
+
