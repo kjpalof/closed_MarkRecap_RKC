@@ -1,0 +1,253 @@
+---
+title: "2015 RKC mark recapture analysis"
+output:
+  word_document: default
+  pdf_document: default
+  html_document:
+    self_contained: no
+---
+# Seymour Canal
+
+K.Palof                 
+Sept., 29th, 2016
+
+#Methods  
+
+##Tagging  
+1. Legal male crab tagged, between September and December of each year
+2. ~60 pots are set and fished for 5-7 days
+3. Good spatial coverage of a bay is essential - otherwise substantial portions of the population could be missed (violation of m-r assumptions)
+    - There is no current method for determining adequate coverage.
+
+##Recaptures  
+1. Recapture event ~ 1 month after tagging event
+    - This time period has not been evaluated 
+2. ~60 pots are fished in locations similar to the tagging locations
+3. All legal males were counted and presence/absense of tags was recorded
+
+##Issues and Concerns
+1. Timing of the experiments
+    - Potential to overlap with molting
+    - Timing of movement around the bays seasonally
+2. Adequate spatial coverage of each area
+    - How to determine this? 
+3. Violations of a closed population assumption
+    - Influence of crab movement into and out of the sampling area on abundance estimates
+
+##Adjustment between mark recapture and CSA abundance estimates
+The catch-survey analysis model (CSA) produces an estimate of legal male biomass in pounds.  The mark-recapture experiment produces an estimate the number of legal male individuals in the population, or N. In order to compare these two estimates they must be on the same scale.  
+
+The estimate of N from the mark-recapture analysis is scaled to biomass of legal male crab (lb) using the average legal weight of an individual crab.  The weight of legal male crab is calculated for each survey area using an area specific length-weight relationship, and then these are averaged over all legal males sampled.  For example, in 2015 this weight was 7.47 lb for Seymour Canal.  This weight is used to scale N to biomass of legal male crab, then an adjustment calculation can be made by dividing the mark-recapture estimate of biomass by the survey CSA estimate.  The resulting adjustment reflects the order of magnitude difference between these two estimates.  In all areas the mark recapture estimate of abundance was larger than the CSA estimate, and therefore the adjustment was positive, ranging from 1.77 to 9.50.  
+
+##Analysis  
+The method used to date is a Petersen estimator:
+
+$\hat{N}=\frac{n_1n_2}{m2},$
+
+where
+
+$n_1$ = the number of tagged crabs released,  
+$n_2$ = the number of crabs examined at the second event,  
+$m_2$ = the number of crabs with tags present at the second event, and,  
+$\hat{N}$ = the estimated abundance.
+
+There are a suite of assumptions that are included in a mark-recapture study:
+
+1.  The population is closed (no mortality, immigration, emigration, recruitment, etc.)
+2.  All individuals have the same probability of capture $p_1$ at time $t_1$
+3.  The sample of time $t_2$ is a simple random sample without replacement
+4.  Marking doesn’t affect probability of capture $p_2$
+5.  There is no tag loss
+6.  All individual with marks are reported
+
+The Petersen estimator is biased. This is well known and it will no longer be used. The Chapman estimator (1951) will be used in its place. The Chapman estimator is unbiased if $n_1+n_2>N$. 
+
+$\hat{N}=\frac{(n_1+1)(n_2+1)}{(m_2+1)}-1,$
+
+For these estimators, when the expected number of recaptures *is less than 10* the estimate of abundance may fail to give even the order of magnitude of the population correctly (Seber 1982).  Also, estimates of abundance (N) with low recaptures ($m_2$) have very large variances and therefore do not have much confidence associated with them.
+
+When there have been multiple tagging and recpature periods different abundance estimators can be used. The advantage of using these would be to reduce the variance of the abundance estimate. In theory, the lower the variance the better the estimator. It is rare that such estimators change the point estimate much from the Chapman estimate, but they have better overall properties. 
+
+Two common multi-stage abundance estimators are the pooled Petersen, that is the unweighted mean of Chapman estimates for each time period, or the Schnabel estimator. The Schnabel estimator is a mean of each time period weighted by the number of recaptures. The Schnabel may reduce the variance of a popoulation estimate whereas the pooled Petersen cannot when compared to a single Chapman estimate. 
+
+Schnabel estimator:
+
+
+$\hat{N}=\frac{lamda}{m+1},$
+where
+
+$lamda$ = $\sum_{i=1}^s n_iM_i$  
+$m$ = the total number of individuals marked,  
+$M$ = the number of marked invdividuals at time period *i*,   
+$n_i$ = the number of individuals captured in time period *i*, and,   
+$s$ = the number of time periods.
+
+
+####Available data  
+
+
+| t             | $n_i$         | m     |    u  |    M  |
+| ------------- |:------------- |:----- |:----- |:----- |
+| 1             | 1008          | 0     | 1008  | 0     |
+| 2             | 1116          |   33  | 1083  | 1008  |
+| 3             | 146           |    6  |       |  2091 |
+
+```{r, echo=F, message = F}
+library(tidyverse)
+library(ggplot2)
+library(pander)
+```
+
+Average legal weight in 2015 (pounds)
+```{r}
+weight = 7.47
+```
+
+2015 Legal CSA biomass for Seymour (pounds)
+```{r}
+CSA = 29062
+```
+
+Previous adjustment (2011)
+```{r}
+adjust_2011 = 9.50
+```
+
+There are two ways to consider these data. 
+
+1) Summing the data overall:
+
+        Tags released: 2091
+
+        Crab examined: 146
+
+        Tags recaptured: 6
+
+
+#####Basic population estimates 
+
+Petersen:
+```{r}
+n1 = 2091
+n2 = 146
+m2 = 6
+N.hat <- n1 * n2/m2
+```
+Chapman
+```{r}
+N.star <- ((n1 + 1) * (n2 + 1)/(m2 + 1)) - 1
+```
+
+
+```{r, echo = F}
+N.star <- ((n1 + 1) * (n2 + 1)/(m2 + 1)) - 1
+v.star <- (n1 + 1) * (n2 + 1) * (n1 - m2) * (n2 - m2)/(((m2 + 1)^2) * (m2 + 
+    2))
+se.star <- sqrt(v.star)
+cv.star <- (se.star/N.star) * 100
+
+lci <- N.star - 1.96 * se.star
+uci <- N.star + 1.96 * se.star
+
+N.hat.lci <- N.hat - 1.96 * se.star
+N.hat.uci <- N.hat + 1.96 * se.star
+
+df <- data.frame(model=c('chapman', 'petersen'),N= c(N.star, N.hat), lci = c(lci, N.hat), uci=c(uci,N.hat))
+df2 <- data.frame(model=c('chapman','petersen'), N= c(N.star, N.hat), lci = c(round(lci,1), round(N.hat.lci,1)), uci=c(round(uci,1),round(N.hat.uci, 1)), CV=c('58%', '68%'), adjment = c(11.29, 13.08), adj_lci=c(3.67, 5.45), adj_uci=c(18.92, 20.70))
+```
+
+Table 1: Basic population estimates
+```{r pander, echo=F}
+panderOptions("digits", 4)
+
+pander(df2)
+```
+
+  
+  
+2) Using each trip as an *event* in the mark recapture experiment
+
+This method uses all the data listed in the above *available data* table. Estimates of abundance can be calculated from both the second and third time periods.  
+
+#####Multi-stage abundance estimators
+```{r, echo = FALSE, eval = TRUE, message = FALSE, error = FALSE, warning = FALSE}
+library(dplyr)
+library(data.table)
+#input data and create cfrog dataframe
+n <- c(1008,1116,146)  # number of captures
+m <- c(0, 33,6)  # number of recaptures
+R <- c(1008,1083,0)  # of marked fish returned to the population
+M <- c(0, cumsum(R)[-2])
+seymour <- data.frame(n = n, m = m, R = R, M = M)
+#Calculate a Petersen estimate N^ and add it to the seymour data
+
+#seymour$N.hat <- M * n/m  
+#Calculate N* and add it to cfrog data
+
+N.star <- ((M + 1) * (n + 1)/(m + 1)) - 1  # Chapman corrected Petersen estimate
+seymour$N.star <- c(NaN, N.star[-1])  # Need to remove the first value as it is an artifact of the Chapman correction
+v.star <- (M + 1) * (n + 1) * (M - m) * (n - m)/(((m + 1)^2) * (m + 2))
+seymour$v.star <- c(NaN, v.star[-1])  # Need to remove the first value as it is an artifact of the Chapman correction
+#seymour
+
+#Mean Petersen Estimates
+
+x.N.star <- mean(seymour$N.star, na.rm = T)
+x.v.star1 <- sum(seymour$v.star, na.rm = T)/(length(seymour$v.star) - 1)^2
+x.v.star2 <- var(seymour$N.star, na.rm = T)/(length(seymour$N.star) - 1)
+t <- qt((1 - 0.05/2), length(n) - 2)
+se.1 <- sqrt(x.v.star1)
+se.2 <- sqrt(x.v.star2)
+ci.1 <- c(x.N.star - t * se.1, x.N.star + t * se.1)
+ci.2 <- c(x.N.star - t * se.2, x.N.star + t * se.2)
+ci.3 <- c(x.N.star - 1.96*se.1, x.N.star +1.96*se.1)
+CV.p <- c((x.N.star - ci.3[1])/x.N.star)
+#Mean Petersen Results
+mP.table = data.table(parameter = c("mean", "var1", "var2", "t", "se1", "se2", 
+                                     "ci.1 low", "ci.1  up", "ci.2 low", "ci.2  up"), value = format(c(x.N.star,                                                                                      x.v.star1, x.v.star2, t, se.1, se.2, ci.1[1], ci.1[2], ci.2[1], ci.2[2]),                                scientific = FALSE, digits = 2))
+
+#Schabel Estimate
+nM <- n * M
+m.s <- sum(m)
+lambda <- sum(nM)
+N.schnabel <- lambda/(m.s + 1)
+z <- 1.96
+ci.sch <- c(lambda * (2 * m.s + z^2 - z * sqrt(4 * m.s + z^2))/(2 * m.s^2), 
+            lambda * (2 * m.s + z^2 + z * sqrt(4 * m.s + z^2))/(2 * m.s^2))
+CV.s <- c((N.schnabel - ci.sch[1])/N.schnabel)
+#Schnabel Results
+mS.table = data.table(parameter = c("N''", "ci low", "ci  up"), value = format(c(N.schnabel, 
+                                                                                  ci.sch[1], ci.sch[2]), scientific = FALSE, digits = 3))
+
+df3 <- data.frame(model=c('mean petersen','schnabel'), N= c(x.N.star, N.schnabel), lci = c(round(ci.3[1],1), round(ci.sch[1],1)), uci=c(round(ci.3[2],1),round(ci.sch[2],1)), CV=c('41%', '25%'), adjment = c(9.91, 9.19), adj_lci=c(5.86, 6.90), adj_uci=c(13.96,12.88))
+
+
+```
+
+Table 2: Multiple event population estimates
+```{r pander2, echo=F}
+panderOptions("digits", 4)
+
+pander(df3)
+```
+
+**Figure 1: Population estimates with confidence intervals**
+```{r, echo=FALSE, eval = TRUE, message = FALSE, error = FALSE, warning = FALSE}
+#figure1 <- data.frame(model= c('chapman','petersen','mean petersen','schnabel'), N = c(N.star, N.hat, #x.N.star, N.schnabel), lci = c(lci, N.hat.lci,ci.3[1], ci.sch[1]), uci = c(uci, N.hat.uci,ci.3[2], #ci.sch[2]))
+try <- full_join(df2,df3)
+ggplot(try, aes(model, N))+geom_point()+geom_errorbar(aes(ymin=lci, ymax=uci))
+```
+
+**Figure 2: Adjustments to CSA biomass with confidence intervals**
+```{r, echo=FALSE, eval = TRUE, message = FALSE, error = FALSE, warning = FALSE}
+
+ggplot(try, aes(model, adjment))+geom_point()+geom_errorbar(aes(ymin=adj_lci, ymax=adj_uci))
+```
+
+
+##Conclusion
+The 2015 the timing of the mark recapture events in Seymour Canal provided a unique opportunity to calculate a more robust estimate of abundance, N, than previous done.  In this document all estimate of abundance are presented, along with their resulting variability and adjustment calculations.  
+
+Two conclusions can be made from this through review of the mark recapture analysis procedure for 2015.  First, the previously used Peterson estimate is biased high for most of the areas due to the low number of recaptures observed in the experiments.  The Chapman estimator, which is just a Peterson estimator adjusted for some of this bias, would be more appropriate for these experiments.  Biometrics suggests that the data be reanalyzed using this estimator and its associated variance. Second, the 2015 data from Seymour, interpreted as one mark event and one recapture event, had too few recaptures to consider the estimate usable.  However, when the data was analyzed using all three trips in the experiment, a viable estimate was obtained (using the Schnabel method).  The Schnabel method, which is simply a weighted Peterson estimate, was able to produce a less variable estimate lowering the CV from 68% to 25%.  The coefficient of variation (CV) of the estimate is one approach to examining the uncertainty associated with the abundance estimates.  A larger CV means that there is less certainty in the estimate obtained. 
+
+The analysis of the 2015 mark recapture data brought up some issues with the timing of our mark and recapture events.  For consistency it would be good to either have two events – one mark and one recapture – as has been done in most past experiments, or to plan on having multiple events throughout the fall initially.  More of these details can be flushed out when an operational plan is drafted for the 2016 and future experiments. 
