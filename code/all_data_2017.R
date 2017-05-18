@@ -11,7 +11,9 @@ library(Matrix)
 
 # Load Data -------------
 data <- read.csv("./data/mr_rinput.csv", header = TRUE)  
-
+# M = number of animals marked on first visit
+# n = number of animals captured on the second visit
+# m = number of recaptured animals (marked recaped on second visit)
 
 ExcC <- mrClosed(M=445, n= 212, m=53, method = "Chapman")
 confint(ExcC)
@@ -21,6 +23,9 @@ data %>%
   mutate(Chapman = (((M+1)*(n+1))/ (m+1))-1, 
          SE = (((M+1)*(n+1)*(M-m)*(n-m))/((m+1)*(m+1)*(m+2)))^0.5, 
          upper = Chapman + (SE*1.96), lower = Chapman -(SE*1.96)) ->data_sum
+
+ggplot(data_sum, aes(area, Chapman))+geom_point()+geom_errorbar(ymin = data_sum$lower, ymax = data_sum$upper)
+
 
 
 
