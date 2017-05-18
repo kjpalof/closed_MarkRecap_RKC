@@ -10,9 +10,9 @@ output: html_document
 # OBJECTIVES
 
 # METHODS
-The method used to date is a Petersen estimator:
+Mark/recapture estiamte are a well established way of determining population size. The Chapman estimator (1951) was used to estimate abundance in this study since it is less bias than the Petersen estimator.  However the Chapman estimator is unbiased only if $n_1+n_2>N$.
 
-$\hat{N}=\frac{n_1n_2}{m2},$
+$\hat{N}=\frac{(n_1+1)(n_2+1)}{(m_2+1)}-1,$
 
 where
 
@@ -30,9 +30,6 @@ There are a suite of assumptions that are included in a mark-recapture study:
 5.  There is no tag loss
 6.  All individual with marks are reported
 
-The Petersen estimator is biased. This is well known and it will no longer be used. The Chapman estimator (1951) will be used in its place. The Chapman estimator is unbiased if $n_1+n_2>N$. 
-
-$\hat{N}=\frac{(n_1+1)(n_2+1)}{(m_2+1)}-1,$
 
 For these estimators, when the expected number of recaptures *is less than 10* the estimate of abundance may fail to give even the order of magnitude of the population correctly (Seber 1982).  Also, estimates of abundance (N) with low recaptures ($m_2$) have very large variances and therefore do not have much confidence associated with them.
 
