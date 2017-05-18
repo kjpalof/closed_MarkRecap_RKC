@@ -3,9 +3,10 @@
 
 options(width = 95)
 library(data.table)
+library(FSA)
 #input data and create cfrog dataframe
 n <- c(1008,1107,146)  # number of captures
-m <- c(0, 33,6)  # number of recaptures
+m <- c(0, 24,6)  # number of recaptures - not sure why this was 33 (instead of 24) changed back to 24. check with adam about where 33 came from
 R <- c(1008, 1083, 0)  # of marked fish returned to the population
 M <- c(0, cumsum(R)[-3])
 (seymour15 <- data.frame(n = n, m = m, R = R, M = M))
@@ -49,3 +50,13 @@ ci.sch <- c(lambda * (2 * m.s + z^2 - z * sqrt(4 * m.s + z^2))/(2 * m.s^2),
 
 (mS.table = data.table(parameter = c("N''", "ci low", "ci  up"), value = format(c(N.schnabel, 
                                                                                   ci.sch[1], ci.sch[2]), scientific = FALSE, digits = 3)))
+
+
+## using FSA package -----------
+mr_schnabel <- mrClosed(n=seymour15$n, m = seymour15$m, M= seymour15$M, method = "Schnabel")
+summary(mr_schnabel)
+confint(mr_schnabel)
+
+mr_schu <- mrClosed(n=seymour15$n, m = seymour15$m, M= seymour15$M, method = "Schumacher")
+summary(mr_schu)
+confint(mr_schu)
