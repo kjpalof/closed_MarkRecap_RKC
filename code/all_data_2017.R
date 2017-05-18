@@ -8,6 +8,7 @@ library(fishmethods)
 library(tidyverse)
 library(broom)
 library(Matrix)
+library(data.table)
 
 # Load Data -------------
 data <- read.csv("./data/mr_rinput.csv", header = TRUE)  
@@ -23,40 +24,38 @@ data %>%
   mutate(Chapman = (((M+1)*(n+1))/ (m+1))-1, 
          SE = (((M+1)*(n+1)*(M-m)*(n-m))/((m+1)*(m+1)*(m+2)))^0.5, 
          upper = Chapman + (SE*1.96), lower = Chapman -(SE*1.96)) ->data_sum
+data_sum %>% 
+  mutate(Chap_lb = Chapman*legal_wt, lower_lb = lower*legal_wt, upper_lb = upper*legal_wt, 
+         adj = Chap_lb/ CSA_legalcrab) -> data_sum2
 
 ggplot(data_sum, aes(area, Chapman))+geom_point()+geom_errorbar(ymin = data_sum$lower, ymax = data_sum$upper)
 
+ggplot(data_sum2, aes(area, Chap_lb))+geom_point()+geom_errorbar(ymin = data_sum2$lower_lb, 
+                                                                 ymax = data_sum2$upper_lb)+
+  geom_point(data = data_sum, aes(area, CSA_legalcrab), colour = "red")
+
+
+## seymour chapman estimate -----------
+#Schabel Estimate
+n <- c(1008,1107,146)  # number of captures
+m <- c(0, 24,6)  # number of recaptures - not sure why this was 33 (instead of 24) changed back to 24. check with adam about where 33 came from
+R <- c(1008, 1083, 0)  # of marked fish returned to the population
+M <- c(0, cumsum(R)[-3])
+(seymour15 <- data.frame(n = n, m = m, R = R, M = M))
+
+nM <- n * M
+m.s <- sum(m)
+lambda <- sum(nM)
+N.schnabel <- lambda/(m.s + 1)
+z <- 1.96
+ci.sch <- c(lambda * (2 * m.s + z^2 - z * sqrt(4 * m.s + z^2))/(2 * m.s^2), 
+            lambda * (2 * m.s + z^2 + z * sqrt(4 * m.s + z^2))/(2 * m.s^2))
+#Schnabel Results
+
+(mS.table = data.table(parameter = c("N''", "ci low", "ci  up"), value = format(c(N.schnabel, 
+                                                                                  ci.sch[1], ci.sch[2]), scientific = FALSE, digits = 3)))
 
 
 
-### Not sure how to do it this way  ------------
-data %>% # doesn't work with dat2 data because there are no 0's for missing data
-  group_by(year, area) %>%
-  do(fit = mrClosed (M =data$M, n=data$n, m=data$m , method = "Chapman")) -> Chapman
-
-
-  
-broom:::tidy.dgCMatrix(Chapman)
-
-Chapman %>%
-  tidy(fit) -> step1
-
-short_term %>%
-  glance(fit) ->short_term_out
-
-recruit_used <- c("Large.Females",  "Pre_Recruit", "Recruit","Post_Recruit")
-short_term_out %>%
-  filter(mod_recruit %in% recruit_used) %>%
-  select(Location, mod_recruit, r.squared, p.value)->short_term_out2
-
-short_term_slope %>%
-  filter(mod_recruit %in% recruit_used, term == 'Year') %>%
-  select(Location, mod_recruit, estimate) %>%
-  right_join(short_term_out2)->short_term_results # estimate here is slope from regression
-#Now need to add column for significance and score
-short_term_results %>%
-  mutate(significant = ifelse(p.value < 0.05 & estimate > 0, 1,
-                              ifelse(p.value <0.05 & estimate <0, -1, 0))) %>%
-  mutate(score = 0.25*significant) -> short_term_results #estimate is slope from regression
 # final results with score - save here
 write.csv(short_term_results, './results/TCS/TCS_shortterm.csv')
