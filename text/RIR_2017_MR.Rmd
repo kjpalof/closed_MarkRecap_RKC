@@ -10,6 +10,8 @@ output: html_document
 # OBJECTIVES
 
 # METHODS
+
+## Data Analysis
 Mark/recapture estiamte are a well established way of determining population size. The Chapman estimator (1951) was used to estimate abundance in this study since it is less bias than the Petersen estimator.  However the Chapman estimator is unbiased only if $n_1+n_2>N$.
 
 $\hat{N}=\frac{(n_1+1)(n_2+1)}{(m_2+1)}-1,$
