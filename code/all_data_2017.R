@@ -28,11 +28,25 @@ data_sum %>%
   mutate(Chap_lb = Chapman*legal_wt, lower_lb = lower*legal_wt, upper_lb = upper*legal_wt, 
          adj = Chap_lb/ CSA_legalcrab) -> data_sum2
 
+data_sum2[c(1:5, 7:9, 12), ] -> data_sum_Chaponly
+
 ggplot(data_sum, aes(area, Chapman))+geom_point()+geom_errorbar(ymin = data_sum$lower, ymax = data_sum$upper)
 
 ggplot(data_sum2, aes(area, Chap_lb))+geom_point()+geom_errorbar(ymin = data_sum2$lower_lb, 
                                                                  ymax = data_sum2$upper_lb)+
   geom_point(data = data_sum, aes(area, CSA_legalcrab), colour = "red")
+
+## Chapman only --------------
+data_sum_Chaponly
+
+ggplot(data_sum_Chaponly, aes(area, Chap_lb))+geom_point()+ scale_y_continuous(limits = c(0, 290000))+
+  geom_errorbar(ymin = data_sum_Chaponly$lower_lb, ymax = data_sum_Chaponly$upper_lb)+
+  geom_point(data = data_sum_Chaponly, aes(area, CSA_legalcrab), colour = "red")
+
+# Chapman only tables -------------
+data_sum2[c(1:9, 12), ] -> data_sum_Chaponly2
+data_sum_Chaponly2 %>% 
+  select(year, area, M, n, m, Chapman, lower, upper) ->table1
 
 
 ## seymour chapman estimate -----------
