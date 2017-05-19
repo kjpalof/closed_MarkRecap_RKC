@@ -12,6 +12,8 @@ output: html_document
 # METHODS
 
 ## Data Analysis
+
+### Mark Recapture Estimation
 Mark/recapture estiamte are a well established way of determining population size. The Chapman estimator (1951) was used to estimate abundance in this study since it is less bias than the Petersen estimator.  However the Chapman estimator is unbiased only if $n_1+n_2>N$.
 
 $\hat{N}=\frac{(n_1+1)(n_2+1)}{(m_2+1)}-1,$
@@ -50,7 +52,59 @@ $m$ = the total number of individuals marked,
 $M$ = the number of marked invdividuals at time period *i*,   
 $n_i$ = the number of individuals captured in time period *i*, and,   
 $s$ = the number of time periods.
+
+### Adjustment Between Mark Recapture and CSA Estimates
+
+
 # RESULTS
+```{r, echo=F, message = F}
+library(tidyverse)
+library(ggplot2)
+library(pander)
+data <- read.csv("../data/mr_rinput.csv", header = TRUE)  
+# M = number of animals marked on first visit
+# n = number of animals captured on the second visit
+# m = number of recaptured animals (marked recaped on second visit)
+
+data %>% 
+  mutate(Chapman = (((M+1)*(n+1))/ (m+1))-1, 
+         SE = (((M+1)*(n+1)*(M-m)*(n-m))/((m+1)*(m+1)*(m+2)))^0.5, 
+         upper = Chapman + (SE*1.96), lower = Chapman -(SE*1.96)) ->data_sum
+data_sum %>% 
+  mutate(Chap_lb = Chapman*legal_wt, lower_lb = lower*legal_wt, upper_lb = upper*legal_wt, 
+         adj = Chap_lb/ CSA_legalcrab) -> data_sum2
+
+data_sum2[c(1:5, 7:9, 12), ] -> data_sum_Chaponly
+data_sum2[c(1:9, 12), ] -> data_sum_Chaponly2
+data_sum_Chaponly2 %>% 
+  select(year, area, M, n, m, Chapman, lower, upper) ->table1
+
+df <- data.frame(Year=table1$year,Area = table1$area, marked_n1 = table1$M, n2 = table1$n, 
+                 recap_m2 = table1$m, N_Chapman = table1$Chapman, lowerCI = table1$lower, 
+                 upperCI = table1$upper)
+```
+
+Table 1: Summary of mark recapture experiment and Chapman population estimates (in legal crab)
+```{r pander, echo=F}
+panderOptions("digits", 4)
+
+pander(df)
+```
+Footnote: n1 = total number of crab marked, n2 = total number of crab caught during recapture event, m2 = number of crab recaptured (ones with marks). 
+
+
+
+Table 2: Summary of mark recapture and CSA population estimates
+```{r pander table 2, echo=F}
+data_sum_Chaponly %>% 
+  select(year, area, CSA_legalcrab,Chap_lb, lower_lb, upper_lb) ->table2
+panderOptions("digits", 4)
+
+pander(table2)
+```
+
+Table 3: Adjustment between population size estimates
+
 
 # DISCUSSION
 
