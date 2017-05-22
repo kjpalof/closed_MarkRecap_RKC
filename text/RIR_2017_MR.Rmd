@@ -8,12 +8,15 @@ output: html_document
 # INTRODUCTION
 
 # OBJECTIVES
+1) Estimate the population size of red king crab survey areas using mark-recapture methods
+2) Calculate an adjustment between population esimates from the CSA model and the mark-recapture experiment
+3) Compare the estimates of population size from the mark-recapture experiments to those obtained from the annual red king crab survey using a catch-survey analysis model(CSA)
 
 # METHODS
 
 ## Data Analysis
 
-### Mark Recapture Estimation
+### Mark-Recapture Estimation
 Mark/recapture estiamte are a well established way of determining population size. The Chapman estimator (1951) was used to estimate abundance in this study since it is less bias than the Petersen estimator.  However the Chapman estimator is unbiased only if $n_1+n_2>N$.
 
 $\hat{N}=\frac{(n_1+1)(n_2+1)}{(m_2+1)}-1,$
@@ -54,7 +57,7 @@ $n_i$ = the number of individuals captured in time period *i*, and,
 $s$ = the number of time periods.
 
 ### Adjustment Between Mark Recapture and CSA Estimates
-
+An objective of this study was to compare the estimates of population size from the mark recapture experiments to those obtained from the annual red king crab survey using a catch-survey analysis model(CSA). One method to do so is to establish an adjustment factor between these two estimates.  
 
 # RESULTS
 ```{r, echo=F, message = F}
@@ -104,7 +107,13 @@ pander(table2)
 ```
 
 Table 3: Adjustment between population size estimates
+```{r pander table 3, echo=F}
+data_sum_Chaponly %>% 
+  select(year, area, CSA_legalcrab,Chap_lb, adj) ->table3
+panderOptions("digits", 4)
 
+pander(table3)
+```
 
 # DISCUSSION
 
