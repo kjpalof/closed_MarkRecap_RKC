@@ -57,10 +57,11 @@ $n_i$ = the number of individuals captured in time period *i*, and,
 $s$ = the number of time periods.
 
 ### Adjustment Between Mark Recapture and CSA Estimates
-An objective of this study was to compare the estimates of population size from the mark recapture experiments to those obtained from the annual red king crab survey using a catch-survey analysis model(CSA). One method to do so is to establish an adjustment factor between these two estimates.  
+An objective of this study was to compare the estimates of population size from the mark recapture experiments to those obtained from the annual red king crab survey using a catch-survey analysis model(CSA). One method to do so is to establish an adjustment factor between these two estimates. The two population estimates have to be in the same units to compare them.  The mark-recapture estimates legal crab in numbers of individuals and the CSA estimates legal crab in lbs (using the average weight of a legal crab). Therefore, the average weight of legal crab from the survey was used to convert the number of legal crab into a biomass (lb).  
 
-# RESULTS
-```{r, echo=F, message = F}
+
+Table 1: Average weight of individual legal crab from survey data
+```{r setup, echo=F, message = F}
 library(tidyverse)
 library(ggplot2)
 library(pander)
@@ -68,7 +69,13 @@ data <- read.csv("../data/mr_rinput.csv", header = TRUE)
 # M = number of animals marked on first visit
 # n = number of animals captured on the second visit
 # m = number of recaptured animals (marked recaped on second visit)
+data %>% select(year, area, legal_wt) ->weight
+weight2 <- weight[c(1:10,12), ]
+pander(weight2)
+```
 
+# RESULTS
+```{r data, echo=F, message = F}
 data %>% 
   mutate(Chapman = (((M+1)*(n+1))/ (m+1))-1, 
          SE = (((M+1)*(n+1)*(M-m)*(n-m))/((m+1)*(m+1)*(m+2)))^0.5, 
@@ -87,7 +94,7 @@ df <- data.frame(Year=table1$year,Area = table1$area, marked_n1 = table1$M, n2 =
                  upperCI = table1$upper)
 ```
 
-Table 1: Summary of mark recapture experiment and Chapman population estimates (in legal crab)
+Table 2: Summary of mark recapture experiment and Chapman population estimates (in legal crab)
 ```{r pander, echo=F}
 panderOptions("digits", 4)
 
@@ -97,7 +104,7 @@ Footnote: n1 = total number of crab marked, n2 = total number of crab caught dur
 
 
 
-Table 2: Summary of mark recapture and CSA population estimates
+Table 3: Summary of mark recapture and CSA population estimates
 ```{r pander table 2, echo=F}
 data_sum_Chaponly %>% 
   select(year, area, CSA_legalcrab,Chap_lb, lower_lb, upper_lb) ->table2
@@ -106,7 +113,7 @@ panderOptions("digits", 4)
 pander(table2)
 ```
 
-Table 3: Adjustment between population size estimates
+Table 4: Adjustment between population size estimates
 ```{r pander table 3, echo=F}
 data_sum_Chaponly %>% 
   select(year, area, CSA_legalcrab,Chap_lb, adj) ->table3
