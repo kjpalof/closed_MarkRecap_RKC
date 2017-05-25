@@ -12,6 +12,7 @@ library(data.table)
 
 # Load Data -------------
 data <- read.csv("./data/mr_rinput.csv", header = TRUE)  
+data %>% arrange(year) -> data
 # M = number of animals marked on first visit
 # n = number of animals captured on the second visit
 # m = number of recaptured animals (marked recaped on second visit)
@@ -24,11 +25,13 @@ data %>%
   mutate(Chapman = (((M+1)*(n+1))/ (m+1))-1, 
          SE = (((M+1)*(n+1)*(M-m)*(n-m))/((m+1)*(m+1)*(m+2)))^0.5, 
          upper = Chapman + (SE*1.96), lower = Chapman -(SE*1.96)) ->data_sum
+# summarizes Chapman estimates in number of crabs
 data_sum %>% 
   mutate(Chap_lb = Chapman*legal_wt, lower_lb = lower*legal_wt, upper_lb = upper*legal_wt, 
          adj = Chap_lb/ CSA_legalcrab) -> data_sum2
+# summarizes Chapman estimates in pounds of crab using average individual weight (input data) also calculates adjustment
 
-data_sum2[c(1:5, 7:9, 12), ] -> data_sum_Chaponly
+data_sum2[c(1:4, 6:9, 12), ] -> data_sum_Chaponly # only the Chapman estimates
 
 ggplot(data_sum, aes(area, Chapman))+geom_point()+geom_errorbar(ymin = data_sum$lower, ymax = data_sum$upper)
 
