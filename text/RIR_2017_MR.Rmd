@@ -7,17 +7,21 @@ output: html_document
 
 # INTRODUCTION
 
+Current survey methods and results
+Red king crab biology / management 
+
+
 # OBJECTIVES
 1) Estimate the population size of red king crab survey areas using mark-recapture methods
-2) Calculate an adjustment between population esimates from the CSA model and the mark-recapture experiment
-3) Compare the estimates of population size from the mark-recapture experiments to those obtained from the annual red king crab survey using a catch-survey analysis model(CSA)
+2) Calculate an adjustment between population estimates from the catch-survey analysis (CSA) model and the mark-recapture experiment
+3) Compare the estimates of population size from the mark-recapture experiments to those obtained from the annual red king crab survey using a CSA model. 
 
 # METHODS
 
 ## Data Analysis
 
 ### Mark-Recapture Estimation
-Mark/recapture estiamte are a well established way of determining population size. The Chapman estimator (1951) was used to estimate abundance in this study since it is less bias than the Petersen estimator.  However the Chapman estimator is unbiased only if $n_1+n_2>N$.
+Mark/recapture estimate are a well established way of determining population size. The Chapman estimator (1951) was used to estimate abundance in this study since it is less bias than the Petersen estimator.  However the Chapman estimator is unbiased only if $n_1+n_2>N$.
 
 $\hat{N}=\frac{(n_1+1)(n_2+1)}{(m_2+1)}-1,$
 
@@ -40,9 +44,9 @@ There are a suite of assumptions that are included in a mark-recapture study:
 
 For these estimators, when the expected number of recaptures *is less than 10* the estimate of abundance may fail to give even the order of magnitude of the population correctly (Seber 1982).  Also, estimates of abundance (N) with low recaptures ($m_2$) have very large variances and therefore do not have much confidence associated with them.
 
-When there have been multiple tagging and recpature periods different abundance estimators can be used. The advantage of using these would be to reduce the variance of the abundance estimate. In theory, the lower the variance the better the estimator. It is rare that such estimators change the point estimate much from the Chapman estimate, but they have better overall properties. 
+When there have been multiple tagging and recapture periods different abundance estimators can be used. The advantage of using these would be to reduce the variance of the abundance estimate. In theory, the lower the variance the better the estimator. It is rare that such estimators change the point estimate much from the Chapman estimate, but they have better overall properties. 
 
-Two common multi-stage abundance estimators are the pooled Petersen, that is the unweighted mean of Chapman estimates for each time period, or the Schnabel estimator. The Schnabel estimator is a mean of each time period weighted by the number of recaptures. The Schnabel may reduce the variance of a popoulation estimate whereas the pooled Petersen cannot when compared to a single Chapman estimate. 
+Two common multi-stage abundance estimators are the pooled Petersen, that is the unweighted mean of Chapman estimates for each time period, or the Schnabel estimator. The Schnabel estimator is a mean of each time period weighted by the number of recaptures. The Schnabel may reduce the variance of a population estimate whereas the pooled Petersen cannot when compared to a single Chapman estimate. 
 
 Schnabel estimator:
 
@@ -52,27 +56,39 @@ where
 
 $lamda$ = $\sum_{i=1}^s n_iM_i$  
 $m$ = the total number of individuals marked,  
-$M$ = the number of marked invdividuals at time period *i*,   
+$M$ = the number of marked individuals at time period *i*,   
 $n_i$ = the number of individuals captured in time period *i*, and,   
 $s$ = the number of time periods.
 
 ### Adjustment Between Mark Recapture and CSA Estimates
-An objective of this study was to compare the estimates of population size from the mark recapture experiments to those obtained from the annual red king crab survey using a catch-survey analysis model(CSA). One method to do so is to establish an adjustment factor between these two estimates. The two population estimates have to be in the same units to compare them.  The mark-recapture estimates legal crab in numbers of individuals and the CSA estimates legal crab in lbs (using the average weight of a legal crab). Therefore, the average weight of legal crab from the survey was used to convert the number of legal crab into a biomass (lb).  
+An objective of this study was to compare the estimates of population size from the mark recapture experiments to those obtained from the annual red king crab survey using a catch-survey analysis model(CSA). One method to do so is to establish an adjustment factor between these two estimates. The two population estimates have to be in the same units to compare them.  The mark-recapture estimates legal crab in numbers of individuals and the CSA estimates legal crab in lbs (using the average weight of a legal crab). Therefore, the average weight of legal crab from the survey was used to convert the number of legal crab into a biomass (lb, Table 1).  The average weight of an individual legal crab is determined by applying an length-weight relationship to all legal crab caught in the survey and taking an average of the resulting weights, each survey area has its own length-weight relationship (reference with red crab ROP or Clark et al. 2003).  
 
 
 Table 1: Average weight of individual legal crab from survey data
 ```{r setup, echo=F, message = F}
 library(tidyverse)
-library(ggplot2)
 library(pander)
 data <- read.csv("../data/mr_rinput.csv", header = TRUE)  
+data %>% arrange(year) -> data
 # M = number of animals marked on first visit
 # n = number of animals captured on the second visit
 # m = number of recaptured animals (marked recaped on second visit)
 data %>% select(year, area, legal_wt) ->weight
-weight2 <- weight[c(1:10,12), ]
+weight2 <- weight[c(1:5,7:10,12), ]
 pander(weight2)
 ```
+
+These weights allow for both the mark-recapture and the CSA estimates to be reflected in biomass (lb) of legal crab.  Once these population estimates are on the same scale an adjustment factor was calculated by dividing the mark-recapture population estimate in pounds ($\hat{B}$) by the CSA estimate of abundance ($B$). 
+
+$Adj=\frac{\hat{B}}{B}$
+
+Ideally, if this adjustment factor hold for all population levels and conditions then it could be used to adjust future CSA estimates to the level of the mark-recapture if needed.  Applying this adjustment over multiple years carries a few assumptions: 
+
+1. The mark-recapture estimate of population size is estimated without bias or error.
+2. The CSA estimate of population size is estimated without bias or error
+3. The relationship between the two estimates will be similar in periods of small and large population size. 
+
+
 
 # RESULTS
 ```{r data, echo=F, message = F}
@@ -124,6 +140,7 @@ pander(table3)
 
 # DISCUSSION
 
-
+## Assumptions and error
+Mark-recapture experiments can be bias high if the same popula
 
 
