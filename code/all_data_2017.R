@@ -63,7 +63,7 @@ ggplot(data_sum_Chaponly, aes(area, Chap_lb))+geom_point()+ scale_y_continuous(l
   geom_point(data = data_sum_Chaponly, aes(area, CSA_legalcrab), colour = "red")
 
 # Chapman only tables -------------
-data_sum2[c(1:9, 12:13), ] -> data_sum_Chaponly2
+data_sum2[c(1:9, 12:13), ] -> data_sum_Chaponly2 # keeps holkham only removes 2015 seymour
 data_sum_Chaponly2 %>% 
   dplyr::select(year, area, M, n, m, Chapman, lower, upper) ->table1
 table1 %>% 
@@ -88,6 +88,10 @@ ci.sch <- c(lambda * (2 * m.s + z^2 - z * sqrt(4 * m.s + z^2))/(2 * m.s^2),
 
 (mS.table = data.table(parameter = c("N''", "ci low", "ci  up"), value = format(c(N.schnabel, 
                                                                                   ci.sch[1], ci.sch[2]), scientific = FALSE, digits = 3)))
+
+data_sum2 %>% 
+  filter(area == "Seymour" & year == 2015) -> Seymour_15
+
 
 
 ### all results together -----
