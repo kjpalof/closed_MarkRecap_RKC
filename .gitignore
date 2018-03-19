@@ -4,8 +4,8 @@
 *.Rproj
 *.csv
 *.png
-./data
-./literature
+/data
+/literature
 *.pdf
 *.docx
 *.html
