@@ -66,7 +66,8 @@ ggplot(data_sum_Chaponly, aes(area, Chap_lb))+geom_point()+ scale_y_continuous(l
 data_sum2[c(1:9, 12:13), ] -> data_sum_Chaponly2
 data_sum_Chaponly2 %>% 
   dplyr::select(year, area, M, n, m, Chapman, lower, upper) ->table1
-
+table1 %>% 
+  mutate(Chapman = round(Chapman,0), lower = round(lower,0), upper = round(upper,0)) -> table1
 
 ## seymour chapman estimate -----------
 #Schabel Estimate
