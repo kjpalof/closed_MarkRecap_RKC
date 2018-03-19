@@ -194,7 +194,7 @@ pander(table3, row.names = F)
 
 
 
-Table 4: Adjustment between population size estimates
+**Table 4: Adjustment between population size estimates for each year**
 ```{r pander table 4, echo=F}
 # from table 3 above just need to add adj....
 table3 %>% 
@@ -206,7 +206,8 @@ panderOptions("digits", 4)
 pander(table4, row.names = F)
 ```
 
-Table 5: Adjustment used for population estimation, weighted mean for areas with more than one experiment
+
+**Table 5: Adjustment used for population estimation, weighted mean for areas with more than one experiment**
 
 
 
