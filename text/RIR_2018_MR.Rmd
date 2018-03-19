@@ -190,11 +190,13 @@ panderOptions("digits", 4)
 pander(table3, row.names = F)
 ```
 
-*All values in Table 3 are in pounds (lb)*
+*Footnote: All values in Table 3 are in pounds (lb)*
+
 
 
 Table 4: Adjustment between population size estimates
 ```{r pander table 4, echo=F}
+# from table 3 above just need to add adj....
 data_sum_Chaponly %>% 
   select(year, area, CSA_legalcrab,Chap_lb, adj) ->table3
 panderOptions("digits", 4)
