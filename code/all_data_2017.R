@@ -9,6 +9,13 @@ library(tidyverse)
 library(broom)
 library(Matrix)
 library(data.table)
+library(extrafont)
+loadfonts(device="win")
+windowsFonts(Times=windowsFont("TT Times New Roman"))
+
+theme_set(theme_bw(base_size=12,base_family='Times New Roman')+ 
+            theme(panel.grid.major = element_blank(),
+                  panel.grid.minor = element_blank()))
 
 # Load Data -------------
 # input data for mark recapture experiments obtained verbally or through e-mail.  Not in database
