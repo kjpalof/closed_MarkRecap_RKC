@@ -91,7 +91,13 @@ ci.sch <- c(lambda * (2 * m.s + z^2 - z * sqrt(4 * m.s + z^2))/(2 * m.s^2),
 
 data_sum2 %>% 
   filter(area == "Seymour" & year == 2015) -> Seymour_15
-
+Seymour_15 %>% 
+  dplyr::select(year, event, area, M, n, m, CSA_legalcrab, legal_wt) %>% 
+  mutate(Schnabel = as.numeric(mS.table$value[1]), 
+         upper = as.numeric(mS.table$value[3]), 
+         lower = as.numeric(mS.table$value[2])) %>% 
+  mutate(Schnabel_lb = Schnabel*legal_wt, upper_lb = upper*legal_wt, lower_lb = lower*legal_wt, 
+         adj = Schnabel_lb/CSA_legalcrab) -> Schnabel1
 
 
 ### all results together -----
