@@ -118,7 +118,7 @@ pander(table2, row.names = F )
 #                 upperCI = table1$upper)
 ```
 
-*Footnote: n1 = total number of crab marked, n2 = total number of crab caught during recapture event, m2 = number of crab recaptured (ones with marks).* 
+*Footnote: M = total number of crab marked in the first event, n = total number of crab caught during recapture event, m = number of crab recaptured (ones with marks).* 
 
 
 
