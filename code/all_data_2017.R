@@ -63,9 +63,9 @@ ggplot(data_sum_Chaponly, aes(area, Chap_lb))+geom_point()+ scale_y_continuous(l
   geom_point(data = data_sum_Chaponly, aes(area, CSA_legalcrab), colour = "red")
 
 # Chapman only tables -------------
-data_sum2[c(1:9, 12), ] -> data_sum_Chaponly2
+data_sum2[c(1:9, 12:13), ] -> data_sum_Chaponly2
 data_sum_Chaponly2 %>% 
-  select(year, area, M, n, m, Chapman, lower, upper) ->table1
+  dplyr::select(year, area, M, n, m, Chapman, lower, upper) ->table1
 
 
 ## seymour chapman estimate -----------
