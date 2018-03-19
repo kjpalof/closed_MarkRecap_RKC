@@ -106,7 +106,7 @@ data_sum %>%
   mutate(Chap_lb = Chapman*legal_wt, lower_lb = lower*legal_wt, upper_lb = upper*legal_wt, 
          adj = Chap_lb/ CSA_legalcrab) -> data_sum2
 
-#data_sum2[c(1:4, 6:9, 12:13), ] -> data_sum_Chaponly
+data_sum2[c(1:4, 6:9, 12:13), ] -> data_sum_Chaponly
 data_sum2[c(1:9, 12:13), ] -> data_sum_Chaponly2 # only remove Seymour 2015, keep Holkham here but remove in next tables due to lack of CSA estimate
 data_sum_Chaponly2 %>% 
   dplyr::select(year, area, M, n, m, Chapman, lower, upper) ->table2
