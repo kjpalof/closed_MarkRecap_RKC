@@ -1,4 +1,4 @@
-#4-28-17
+#4-28-17, updated 3-19-18
 # Summary of all mark recapture experiments
 # chapman estimators with variance
 
@@ -11,7 +11,7 @@ library(Matrix)
 library(data.table)
 
 # Load Data -------------
-data <- read.csv("./data/mr_rinput.csv", header = TRUE)  
+data <- read.csv("./data/mr_rinput.csv", header = TRUE)  # updated input file to include 2017 data
 data %>% arrange(year) -> data
 # M = number of animals marked on first visit
 # n = number of animals captured on the second visit
@@ -20,6 +20,10 @@ data %>% arrange(year) -> data
 ExcC <- mrClosed(M=445, n= 212, m=53, method = "Chapman")
 confint(ExcC)
 summary(ExcC)
+
+GambC <- mrClosed(M=888, n= 554, m=46, method = "Chapman")
+confint(GambC)
+summary(GambC)
 
 data %>% 
   mutate(Chapman = (((M+1)*(n+1))/ (m+1))-1, 
