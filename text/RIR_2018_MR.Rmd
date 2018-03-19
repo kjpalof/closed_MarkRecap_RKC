@@ -126,7 +126,7 @@ Table 3: Summary of mark recapture and CSA population estimates
 ```{r pander table 2, echo=F}
 data_sum_Chaponly %>% 
   select(year, area, CSA_legalcrab,Chap_lb, lower_lb, upper_lb) %>% 
-  rename(CSA_legal_lbs == CSA_legalcrab) ->table2
+  rename(CSA_legal_lbs = CSA_legalcrab) ->table2
 panderOptions("digits", 4)
 
 pander(table2)
