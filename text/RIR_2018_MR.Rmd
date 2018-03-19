@@ -69,6 +69,7 @@ Table 1: Average weight of individual legal crab from survey data
 ```{r setup, echo=F, message = F}
 library(tidyverse)
 library(pander)
+library(knitr)
 # remove index column from this table *FLAG*
 data <- read.csv("../data/mr_rinput.csv", header = TRUE)  
 data %>% arrange(year) -> data
@@ -76,8 +77,9 @@ data %>% arrange(year) -> data
 # n = number of animals captured on the second visit
 # m = number of recaptured animals (marked recaped on second visit)
 data %>% dplyr::select(year, area, legal_wt) ->weight
-weight2 <- weight[c(1:4,6:10,12:13), ]
-pander(weight2)
+weight2 <- weight[c(1:4,6:10,12:13), ] # remove holkham no CSA estimate, and only one line for seymour 2015
+pander(weight2, row.names =F, digits =3)
+#kable(weight2, digits = 2, row.names = F)
 ```
 
 These weights allow for both the mark-recapture and the CSA estimates to be reflected in biomass (lb) of legal crab.  Once these population estimates are on the same scale an adjustment factor was calculated by dividing the mark-recapture population estimate in pounds ($\hat{B}$) by the CSA estimate of abundance ($B$). 
