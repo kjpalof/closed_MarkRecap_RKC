@@ -70,6 +70,7 @@ An objective of this study was to compare the estimates of population size from 
 library(tidyverse)
 library(pander)
 library(knitr)
+library(data.table)
 # remove index column from this table *FLAG*
 data <- read.csv("../data/mr_rinput.csv", header = TRUE)  
 data %>% arrange(year) -> data
