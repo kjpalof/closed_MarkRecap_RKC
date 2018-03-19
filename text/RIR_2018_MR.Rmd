@@ -76,7 +76,7 @@ data %>% arrange(year) -> data
 # n = number of animals captured on the second visit
 # m = number of recaptured animals (marked recaped on second visit)
 data %>% select(year, area, legal_wt) ->weight
-weight2 <- weight[c(1:5,7:10,12), ]
+weight2 <- weight[c(1:5,7:10,12:13), ]
 pander(weight2)
 ```
 
