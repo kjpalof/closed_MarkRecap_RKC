@@ -96,7 +96,7 @@ Ideally, if this adjustment factor hold for all population levels and conditions
 
 # RESULTS
 
-**Table 2: Summary of mark recapture experiment and Chapman population estimates (in legal crab)**
+**Table 2a: Summary of mark recapture experiment and Chapman population estimates (in numbers of legal crab)**
 ```{r data, echo=F, message = F}
 data %>% 
   mutate(Chapman = (((M+1)*(n+1))/ (m+1))-1, 
@@ -118,7 +118,47 @@ pander(table2, row.names = F )
 #                 upperCI = table1$upper)
 ```
 
-*Footnote: M = total number of crab marked in the first event, n = total number of crab caught during recapture event, m = number of crab recaptured (ones with marks).* 
+**Table 2b: Summary of mark recapture experiment and Schnabel population estimates (in numbers of legal crab)**
+```{r schnabel, echo=F, message = F}
+#Schabel Estimate
+n <- c(1008,1116,146)  # number of captures
+m <- c(0, 33,6)  # number of recaptures - not sure why this was 33 (instead of 24) changed back to 24. check with adam about where 33 came from
+R <- c(1008, 1083, 0)  # of marked fish returned to the population
+M <- c(0, cumsum(R)[-3])
+seymour15 <- data.frame(n = n, m = m, R = R, M = M)
+
+nM <- n * M
+m.s <- sum(m)
+lambda <- sum(nM)
+N.schnabel <- lambda/(m.s + 1)
+z <- 1.96
+ci.sch <- c(lambda * (2 * m.s + z^2 - z * sqrt(4 * m.s + z^2))/(2 * m.s^2), 
+            lambda * (2 * m.s + z^2 + z * sqrt(4 * m.s + z^2))/(2 * m.s^2))
+#Schnabel Results
+
+mS.table = data.table(parameter = c("N''", "ci low", "ci  up"), value = format(c(N.schnabel, 
+                                                                                  ci.sch[1], ci.sch[2]), scientific = FALSE, digits = 3))
+
+data_sum2 %>% 
+  filter(area == "Seymour" & year == 2015) -> Seymour_15
+Seymour_15 %>% 
+  dplyr::select(year, event, area, M, n, m, CSA_legalcrab, legal_wt) %>% 
+  mutate(Schnabel = as.numeric(mS.table$value[1]), 
+         upper = as.numeric(mS.table$value[3]), 
+         lower = as.numeric(mS.table$value[2])) %>% 
+  mutate(Schnabel_lb = Schnabel*legal_wt, upper_lb = upper*legal_wt, lower_lb = lower*legal_wt, 
+         adj = Schnabel_lb/CSA_legalcrab) -> Schnabel1
+Schnabel1 %>% 
+  filter(event == 1) %>% 
+  dplyr::select(year, area, M, n, m, Schnabel, upper, lower) -> table2b
+
+panderOptions("digits", 4)
+pander(table2b, row.names = F )
+
+```
+
+
+*Footnote: M = total number of crab marked in the first event, n = total number of crab caught during recapture event, m = number of crab recaptured (ones with marks). * 
 
 
 
