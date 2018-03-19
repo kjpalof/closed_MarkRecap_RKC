@@ -47,7 +47,7 @@ data_sum %>%
          adj = Chap_lb/ CSA_legalcrab) -> data_sum2
 # summarizes Chapman estimates in pounds of crab using average individual weight (input data) also calculates adjustment
 
-data_sum2[c(1:4, 6:9, 12:13), ] -> data_sum_Chaponly # only the Chapman estimates
+data_sum2[c(1:4, 6:9, 12:13), ] -> data_sum_Chaponly # only the Chapman estimates, removes Holkham and Seymour
 
 ggplot(data_sum, aes(area, Chapman))+geom_point()+geom_errorbar(ymin = data_sum$lower, ymax = data_sum$upper)
 
@@ -71,8 +71,8 @@ table1 %>%
 
 ## seymour chapman estimate -----------
 #Schabel Estimate
-n <- c(1008,1107,146)  # number of captures
-m <- c(0, 24,6)  # number of recaptures - not sure why this was 33 (instead of 24) changed back to 24. check with adam about where 33 came from
+n <- c(1008,1116,146)  # number of captures
+m <- c(0, 33,6)  # number of recaptures - not sure why this was 33 (instead of 24) changed back to 24. check with adam about where 33 came from
 R <- c(1008, 1083, 0)  # of marked fish returned to the population
 M <- c(0, cumsum(R)[-3])
 (seymour15 <- data.frame(n = n, m = m, R = R, M = M))
@@ -89,6 +89,14 @@ ci.sch <- c(lambda * (2 * m.s + z^2 - z * sqrt(4 * m.s + z^2))/(2 * m.s^2),
 (mS.table = data.table(parameter = c("N''", "ci low", "ci  up"), value = format(c(N.schnabel, 
                                                                                   ci.sch[1], ci.sch[2]), scientific = FALSE, digits = 3)))
 
+
+### all results together -----
+data_sum2 %>% 
+  filter(area != "Holkham") -> data_sum3 # removes Holkham due to no CSA estimate
+
+data_sum3 %>% 
+  
+# combine Schnabel results for seymour with Chapman 
 
 
 # final results with score - save here
