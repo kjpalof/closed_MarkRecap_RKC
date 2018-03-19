@@ -102,8 +102,8 @@ data_sum %>%
   mutate(Chap_lb = Chapman*legal_wt, lower_lb = lower*legal_wt, upper_lb = upper*legal_wt, 
          adj = Chap_lb/ CSA_legalcrab) -> data_sum2
 
-data_sum2[c(1:5, 7:9, 12), ] -> data_sum_Chaponly
-data_sum2[c(1:9, 12), ] -> data_sum_Chaponly2
+data_sum2[c(1:4, 6:9, 12:13), ] -> data_sum_Chaponly
+#data_sum2[c(1:9, 12), ] -> data_sum_Chaponly2
 data_sum_Chaponly2 %>% 
   select(year, area, M, n, m, Chapman, lower, upper) ->table1
 
@@ -125,7 +125,7 @@ Footnote: n1 = total number of crab marked, n2 = total number of crab caught dur
 Table 3: Summary of mark recapture and CSA population estimates
 ```{r pander table 2, echo=F}
 data_sum_Chaponly %>% 
-  select(year, area, CSA_legalcrab,Chap_lb, lower_lb, upper_lb) %>% 
+  dplyr::select(year, area, CSA_legalcrab,Chap_lb, lower_lb, upper_lb) %>% 
   rename(CSA_legal_lbs = CSA_legalcrab) ->table2
 panderOptions("digits", 4)
 
