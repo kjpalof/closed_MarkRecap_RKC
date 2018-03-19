@@ -104,10 +104,31 @@ Seymour_15 %>%
 data_sum2 %>% 
   filter(area != "Holkham") -> data_sum3 # removes Holkham due to no CSA estimate
 
-data_sum3 %>% 
+
   
 # combine Schnabel results for seymour with Chapman 
+  data_sum_Chaponly %>% 
+  dplyr::select(year, area, CSA_legalcrab,Chap_lb, lower_lb, upper_lb) %>% 
+  mutate(Estimator = "Chapman") %>% 
+  rename(CSA_legal = CSA_legalcrab, 
+         MR_legal = Chap_lb, 
+         LCI = lower_lb, 
+         UCI = upper_lb) ->table3_chap
+
+Schnabel1 %>% 
+  filter(event ==1) %>% 
+  dplyr::select(year, area, CSA_legalcrab,Schnabel_lb, lower_lb, upper_lb) %>% 
+  mutate(Estimator = "Schnabel") %>% 
+  rename(CSA_legal = CSA_legalcrab, 
+         MR_legal = Schnabel_lb, 
+         LCI = lower_lb, 
+         UCI = upper_lb) ->table3_schn
+
+table3_chap %>% 
+  bind_rows(table3_schn) -> table3
+
+# write results table3 here - summary of MR results and confidence intervals 
+write.csv(table3, './results/biomass_summary_18.csv')
 
 
-# final results with score - save here
-write.csv(short_term_results, './results/TCS/TCS_shortterm.csv')
+# add adjustment to table 3 to make table 4 
