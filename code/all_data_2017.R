@@ -11,6 +11,11 @@ library(Matrix)
 library(data.table)
 
 # Load Data -------------
+# input data for mark recapture experiments obtained verbally or through e-mail.  Not in database
+# CSA estimates of legal crab in lbs for each year are point estimates and can be tracked in annual stock health documents
+# legal weight is from the survey data and can be recalculated using raw survey data, but is tracked in Excel files for each area with the CSA estimate
+# Seymour is read in here but uses a different estimator than the rest of the areas.
+
 data <- read.csv("./data/mr_rinput.csv", header = TRUE)  # updated input file to include 2017 data
 data %>% arrange(year) -> data
 # M = number of animals marked on first visit
