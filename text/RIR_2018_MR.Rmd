@@ -141,6 +141,10 @@ panderOptions("digits", 4)
 pander(table3)
 ```
 
+Table 5: Adjustment used for population estimation, weighted mean for areas with more than one experiment
+
+
+
 # DISCUSSION
 
 ## Assumptions and error
