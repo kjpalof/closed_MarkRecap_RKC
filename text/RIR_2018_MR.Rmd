@@ -197,11 +197,13 @@ pander(table3, row.names = F)
 Table 4: Adjustment between population size estimates
 ```{r pander table 4, echo=F}
 # from table 3 above just need to add adj....
-data_sum_Chaponly %>% 
-  select(year, area, CSA_legalcrab,Chap_lb, adj) ->table3
+table3 %>% 
+  mutate(ADJ = MR_legal/CSA_legal, lci_ADJ = LCI/CSA_legal, 
+         uci_ADJ = UCI/CSA_legal) %>% # add adjustment and LCI and UCI
+  dplyr::select(year, area, CSA_legal, MR_legal, ADJ, lci_ADJ, uci_ADJ)->table4
 panderOptions("digits", 4)
 
-pander(table3)
+pander(table4, row.names = F)
 ```
 
 Table 5: Adjustment used for population estimation, weighted mean for areas with more than one experiment
