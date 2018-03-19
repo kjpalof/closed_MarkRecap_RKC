@@ -40,7 +40,7 @@ data_sum %>%
          adj = Chap_lb/ CSA_legalcrab) -> data_sum2
 # summarizes Chapman estimates in pounds of crab using average individual weight (input data) also calculates adjustment
 
-data_sum2[c(1:4, 6:9, 12), ] -> data_sum_Chaponly # only the Chapman estimates
+data_sum2[c(1:4, 6:9, 12:13), ] -> data_sum_Chaponly # only the Chapman estimates
 
 ggplot(data_sum, aes(area, Chapman))+geom_point()+geom_errorbar(ymin = data_sum$lower, ymax = data_sum$upper)
 
