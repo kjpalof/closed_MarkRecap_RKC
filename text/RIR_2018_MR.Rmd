@@ -1,5 +1,5 @@
 ---
-title: "RIR_mark_recap_2018"
+title: "RIR: Southeast Alaska red king crab mark recapture experiments"
 author: "Katie Palof"
 date: "March 19, 2018"
 output: html_document
@@ -190,7 +190,7 @@ panderOptions("digits", 4)
 pander(table3, row.names = F)
 ```
 
-*Footnote: All values in Table 3 are in pounds (lb)*
+*Footnote: All values in Table 3 and 4 are in pounds (lb)*
 
 
 
