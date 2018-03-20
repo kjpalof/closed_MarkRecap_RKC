@@ -16,7 +16,7 @@ Red king crab biology / management
 
 
 # OBJECTIVES
-1) Estimate the population size of red king crab survey areas using mark-recapture methods
+1) Estimate the population size in red king crab survey areas using mark-recapture methods
 2) Compare the estimates of population size from the mark-recapture experiments to those obtained from the annual red king crab survey using a CSA model.
 3) Calculate an adjustment between population estimates from the catch-survey analysis (CSA) model and the mark-recapture experiment
 
@@ -173,7 +173,7 @@ pander(table2b, row.names = F )
 *Footnote: M = total number of crab marked in the first event, n = total number of crab caught during recapture event, m = number of crab recaptured (ones with marks). * 
 
 
-
+###### Page Break
 **Table 3: Summary of mark recapture and CSA population estimates**
 ```{r table 3, echo=F}
 data_sum_Chaponly %>% 
@@ -220,7 +220,7 @@ pander(table4, row.names = F)
 ```
 
 
-
+###### Page Break
 **Table 5: Adjustment used in the stock assessment, weighted mean for areas with more than one experiment**
 ```{r table 5, echo=F}
 table4 %>% 
