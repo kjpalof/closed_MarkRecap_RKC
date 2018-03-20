@@ -200,7 +200,8 @@ pander(table3, row.names = F)
 table3 %>% 
   mutate(ADJ = MR_legal/CSA_legal, lci_ADJ = LCI/CSA_legal, 
          uci_ADJ = UCI/CSA_legal) %>% # add adjustment and LCI and UCI
-  dplyr::select(year, area, CSA_legal, MR_legal, ADJ, lci_ADJ, uci_ADJ)->table4
+  dplyr::select(year, area, CSA_legal, MR_legal, ADJ, lci_ADJ, uci_ADJ) %>% 
+  arrange(area, year) ->table4
 panderOptions("digits", 4)
 
 pander(table4, row.names = F)
