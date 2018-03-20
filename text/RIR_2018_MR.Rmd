@@ -208,8 +208,14 @@ pander(table4, row.names = F)
 
 
 **Table 5: Adjustment used for population estimation, weighted mean for areas with more than one experiment**
+```{r table 5, echo=F}
+table4 %>% 
+  group_by(area) %>% 
+  summarise(weighted_ADJ = weighted.mean(ADJ, CSA_legal)) ->table5
 
-
+panderOptions("digits", 4)
+pander(table5, row.names = F)
+```
 
 # DISCUSSION
 
