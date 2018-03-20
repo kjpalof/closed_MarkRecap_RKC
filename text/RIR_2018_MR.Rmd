@@ -96,6 +96,12 @@ Ideally, if this adjustment factor hold for all population levels and conditions
 
 
 # RESULTS
+Mark recapture experiments were conducted over a number of years (2009-2017) with the goal of replicating the experiment at least twice in each area.  The results of the experiments, along with their associated estimates of numbers of legal crabs (Chapman or Schnabel) are in Tables 2a and 2b. Lower and upper confidence intervals for the mark recapture estimates are provided also. 
+
+One of the goals of this project was to compare the mark recapture experiments to the biomass estimates obtained from the CSA model, which uses our pot survey data. The CSA outputs legal biomass (in lbs) while the mark recapture (MR) outputs the estimates as number of crab.  The number of crab are then converted to biomass using the average weight of legal crab that year in our survey (Table 1). Table 3 summarizes both the estimates (in lbs) and shows the lower (LCI) and upper (UCI) confidence intervals for the mark recapture estimates.
+
+An additional goal was to provide an adjustment to our current CSA estimate based on the differences between the CSA and the mark recapture estimates. Table 4 lists this adjustment and the associated lower and upper confidence intervals, which are based on the error associated only with the mark recapture estimate of biomass at this time. Currently, the stock health document adjusts the CSA or survey biomass using a weighted average of these adjustment calculations. These are listed in Table 5. 
+
 
 **Table 2a: Summary of mark recapture experiment and Chapman population estimates (in numbers of legal crab)**
 ```{r data, echo=F, message = F}
@@ -194,6 +200,7 @@ pander(table3, row.names = F)
 
 
 
+
 **Table 4: Adjustment between population size estimates for each year**
 ```{r pander table 4, echo=F}
 # from table 3 above just need to add adj....
@@ -208,7 +215,8 @@ pander(table4, row.names = F)
 ```
 
 
-**Table 5: Adjustment used for population estimation, weighted mean for areas with more than one experiment**
+
+**Table 5: Adjustment used in the stock assessment, weighted mean for areas with more than one experiment**
 ```{r table 5, echo=F}
 table4 %>% 
   group_by(area) %>% 
@@ -218,9 +226,12 @@ panderOptions("digits", 4)
 pander(table5, row.names = F)
 ```
 
+
+
 # DISCUSSION
 
 ## Assumptions and error
 Mark-recapture experiments can be bias high if the same popula
 
 
+## Adjustment factor assumptions
