@@ -1,5 +1,5 @@
 ---
-title: "RIR: Southeast Alaska red king crab mark recapture experiments"
+title: "Draft RIR: Southeast Alaska red king crab mark recapture experiments"
 author: "Katie Palof"
 date: "March 19, 2018"
 output: html_document
