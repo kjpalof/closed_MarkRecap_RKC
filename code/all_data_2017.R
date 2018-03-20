@@ -130,5 +130,14 @@ table3_chap %>%
 # write results table3 here - summary of MR results and confidence intervals 
 write.csv(table3, './results/biomass_summary_18.csv')
 
+# Table 4 adjustment values ------
+table3 %>% 
+  mutate(ADJ = MR_legal/CSA_legal, lci_ADJ = LCI/CSA_legal, 
+         uci_ADJ = UCI/CSA_legal) %>% # add adjustment and LCI and UCI
+  dplyr::select(year, area, CSA_legal, MR_legal, ADJ, lci_ADJ, uci_ADJ)->table4
 
-# add adjustment to table 3 to make table 4 
+# final table with weighted means for adjustment -------
+table4 %>% 
+  group_by(area) %>% 
+  summarise(weighted_ADJ = weighted.mean(ADJ, CSA_legal)) ->table5
+
