@@ -203,8 +203,10 @@ pander(table3, row.names = F)
 
 *Footnote: All values in Table 3 and 4 are in pounds (lb)*
 
+\newline
 
-
+\newline
+\newline
 
 **Table 4: Adjustment between population size estimates for each year**
 ```{r pander table 4, echo=F}
