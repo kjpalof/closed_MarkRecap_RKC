@@ -229,7 +229,7 @@ table4 %>%
   group_by(area) %>% 
   summarise(weighted_ADJ = weighted.mean(ADJ, CSA_legal)) ->table5
 
-panderOptions("digits", 4)
+panderOptions("digits", 3)
 pander(table5, row.names = F)
 ```
 
