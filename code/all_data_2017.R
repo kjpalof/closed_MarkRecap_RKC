@@ -136,6 +136,10 @@ table3 %>%
          uci_ADJ = UCI/CSA_legal) %>% # add adjustment and LCI and UCI
   dplyr::select(year, area, CSA_legal, MR_legal, ADJ, lci_ADJ, uci_ADJ)->table4
 
+# order table 4 to show areas together in multiple years?
+table4 %>% 
+  arrange(area, year)
+
 # final table with weighted means for adjustment -------
 table4 %>% 
   group_by(area) %>% 
