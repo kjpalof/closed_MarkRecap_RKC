@@ -3,7 +3,8 @@ title: 'Draft RIR: Southeast Alaska red king crab mark recapture experiments'
 author: "Katie Palof"
 date: "March 19, 2018"
 output:
-  word_document: default
+  word_document: 
+   reference_docx: style_settings.docx
   html_document: default
 ---
 
