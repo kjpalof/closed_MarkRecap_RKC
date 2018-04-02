@@ -122,7 +122,7 @@ data_sum2[c(1:4, 6:9, 12:13), ] -> data_sum_Chaponly
 data_sum2[c(1:9, 12:13), ] -> data_sum_Chaponly2 # only remove Seymour 2015, keep Holkham here but remove in next tables due to lack of CSA estimate
 data_sum_Chaponly2 %>% 
   dplyr::select(year, area, M, n, m, Chapman, lower, upper) ->table2
-
+write.csv(table2, './results/chapman_all.csv')
 panderOptions("digits", 4)
 pander(table2, row.names = F )
 #df <- data.frame(Year=table2$year,Area = table1$area, marked_n1 = table1$M, n2 = table1$n, 
@@ -163,7 +163,7 @@ Seymour_15 %>%
 Schnabel1 %>% 
   filter(event == 1) %>% 
   dplyr::select(year, area, M, n, m, Schnabel, upper, lower) -> table2b
-
+write.csv(table2b, './results/schnabel.csv')
 panderOptions("digits", 4)
 pander(table2b, row.names = F )
 
@@ -195,7 +195,7 @@ Schnabel1 %>%
 
 table3_chap %>% 
   bind_rows(table3_schn) -> table3
-
+write.csv(table3, './results/all_estimates.csv')
 panderOptions("digits", 4)
 
 pander(table3, row.names = F)
@@ -216,6 +216,7 @@ table3 %>%
          uci_ADJ = UCI/CSA_legal) %>% # add adjustment and LCI and UCI
   dplyr::select(year, area, CSA_legal, MR_legal, ADJ, lci_ADJ, uci_ADJ) %>% 
   arrange(area, year) ->table4
+write.csv(table4, './results/all_adjustments.csv')
 panderOptions("digits", 4)
 
 pander(table4, row.names = F)
@@ -228,7 +229,7 @@ pander(table4, row.names = F)
 table4 %>% 
   group_by(area) %>% 
   summarise(weighted_ADJ = weighted.mean(ADJ, CSA_legal)) ->table5
-
+write.csv(table5, './results/adj_final_stock_assessment.csv')
 panderOptions("digits", 3)
 pander(table5, row.names = F)
 ```
