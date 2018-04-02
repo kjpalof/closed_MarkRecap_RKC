@@ -128,7 +128,7 @@ table3_chap %>%
   bind_rows(table3_schn) -> table3
 
 # write results table3 here - summary of MR results and confidence intervals 
-write.csv(table3, './results/biomass_summary_18.csv')
+#write.csv(table3, './results/biomass_summary_18.csv')
 
 # Table 4 adjustment values ------
 table3 %>% 
